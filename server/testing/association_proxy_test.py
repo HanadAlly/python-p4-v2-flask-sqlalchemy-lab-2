@@ -1,5 +1,5 @@
-from app import app, db
-from server.models import Customer, Item, Review
+from server.app import app
+from server.models import db, Customer, Item, Review
 
 
 class TestAssociationProxy:
@@ -8,12 +8,12 @@ class TestAssociationProxy:
     def test_has_association_proxy(self):
         '''has association proxy to items'''
         with app.app_context():
-            c = Customer()
-            i = Item()
+            c = Customer(name="Test Customer")
+            i = Item(name="Test Item", price=1.0)
             db.session.add_all([c, i])
             db.session.commit()
 
-            r = Review(comment='great!', customer=c, item=i)
+            r = Review(comment='great!', star_rating=5, customer=c, item=i)
             db.session.add(r)
             db.session.commit()
 
